@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 psycopg2-binary = "*"
 django-environ = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [dev-packages]
 
