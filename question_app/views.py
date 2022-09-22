@@ -32,7 +32,8 @@ class AnswerList(generics.ListCreateAPIView):
     ordering_fields = ['date_answered']
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user,
+                        question=serializer.validated_data.get('question'))
 
 
 class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
