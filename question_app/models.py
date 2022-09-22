@@ -22,7 +22,7 @@ class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.question_field
+        return self.question_title
 
 
 class Answer(models.Model):
