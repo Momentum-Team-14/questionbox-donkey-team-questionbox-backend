@@ -11,3 +11,4 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, UserAdmin)
 admin.site.register(Question)
+admin.site.register(Answer)
