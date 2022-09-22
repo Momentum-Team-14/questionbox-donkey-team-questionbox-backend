@@ -18,3 +18,5 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = ('pk', 'user', 'question',
                   'answer_field', 'date_answered')
+
+
