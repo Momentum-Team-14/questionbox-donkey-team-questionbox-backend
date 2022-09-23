@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
 
 class Question(models.Model):
     user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="question")
+        CustomUser, on_delete=models.CASCADE, related_name="questions")
     question_title = models.CharField(max_length=250, blank=True, default='')
     question_field = models.TextField(max_length=10000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
@@ -27,9 +27,9 @@ class Question(models.Model):
 
 class Answer(models.Model):
     user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="answer")
+        CustomUser, on_delete=models.CASCADE, related_name="answers")
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, related_name='answer', null=True, blank=True)
+        Question, on_delete=models.CASCADE, related_name='answers', null=True, blank=True)
     answer_field = models.TextField(max_length=10000, blank=True, default='')
     date_answered = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
@@ -39,5 +39,14 @@ class Answer(models.Model):
 
 
 class Favorite(models.Model):
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="favorites", null=True)
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, related_name="favorite")
+        Question, on_delete=models.CASCADE, related_name="favorites")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'question'], name='unique_for_question_and_user'
+            )
+        ]
