@@ -1,10 +1,11 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from .models import Answer, Question
-from rest_framework import generics, filters
-from .serializers import QuestionSerializer, AnswerSerializer
+from .models import Answer, Question, Favorite
+from rest_framework import generics, filters, serializers
+from .serializers import QuestionSerializer, AnswerSerializer, FavoriteSerializer
 
 
 # Create your views here.
@@ -41,9 +42,26 @@ class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AnswerSerializer
 
 
+class FavoriteList(generics.ListCreateAPIView):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+
+    def perform_create(self, serializer):
+        try:
+         serializer.save(user=self.request.user, question=serializer.validated_data.get('question'))
+        except IntegrityError as error:
+            raise serializers.ValidationError({"error": error})
+
+
+class FavoriteDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+
+
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
         'extra-pointers': reverse('question-list', request=request, format=format),
         'answers': reverse('answer-list', request=request, format=format),
+        'favorite': reverse('favorite-list', request=request, format=format),
     })

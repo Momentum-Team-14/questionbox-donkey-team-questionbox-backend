@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Answer, Question
+from .models import Answer, Favorite, Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -20,3 +20,9 @@ class AnswerSerializer(serializers.ModelSerializer):
                   'answer_field', 'date_answered')
 
 
+class FavoriteSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(slug_field='username', read_only=True)
+
+    class Meta:
+        model = Favorite
+        fields = ('pk', 'user', 'question')
