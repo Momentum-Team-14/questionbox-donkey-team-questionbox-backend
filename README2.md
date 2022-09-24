@@ -47,7 +47,7 @@ Start your server with:
 #### API Root
 
 ```http
-GET https://team-question-box.herokuapp.com
+ GET https://team-question-box.herokuapp.com
 ```
 
 | Parameter  | Type     | Description                    |
@@ -57,7 +57,7 @@ GET https://team-question-box.herokuapp.com
 #### Get All Questions
 
 ```http
-GET https://team-question-box.herokuapp.com/questions/
+ GET https://team-question-box.herokuapp.com/questions/
 ```
 
 | Parameter        | Type     | Description                            |
@@ -71,7 +71,7 @@ GET https://team-question-box.herokuapp.com/questions/
 #### Submit A Question
 
 ```http
-POST https://team-question-box.herokuapp.com/questions/
+ POST https://team-question-box.herokuapp.com/questions/
 ```
 
 | Parameter        | Type     | Description              |
@@ -82,7 +82,7 @@ POST https://team-question-box.herokuapp.com/questions/
 #### Get All Answers By User - **Required**. User Login
 
 ```http
-GET https://team-question-box.herokuapp.com/answers/
+ GET https://team-question-box.herokuapp.com/answers/
 ```
 
 | Parameter       | Type     | Description                        |
@@ -96,7 +96,7 @@ GET https://team-question-box.herokuapp.com/answers/
 #### Submit An Answer - **Required**: User Login
 
 ```http
-POST https://team-question-box.herokuapp.com/answers/
+ POST https://team-question-box.herokuapp.com/answers/
 ```
 
 | Parameter      | Type     | Description                       |
