@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from .models import Answer, Question, Favorite
 from rest_framework import generics, filters, serializers
 from .serializers import QuestionSerializer, AnswerSerializer, FavoriteSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 
 # Create your views here.
@@ -16,6 +17,7 @@ class QuestionList(generics.ListCreateAPIView):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     ordering_fields = ['date_created']
     search_fields = ['question_title', 'question_field']
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -24,6 +26,7 @@ class QuestionList(generics.ListCreateAPIView):
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class AnswerList(generics.ListCreateAPIView):
@@ -31,6 +34,7 @@ class AnswerList(generics.ListCreateAPIView):
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['date_answered']
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user,
@@ -40,11 +44,13 @@ class AnswerList(generics.ListCreateAPIView):
 class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class FavoriteList(generics.ListCreateAPIView):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         try:
@@ -56,6 +62,7 @@ class FavoriteList(generics.ListCreateAPIView):
 class FavoriteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
 
 
 @api_view(['GET'])
