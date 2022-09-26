@@ -17,7 +17,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ('pk', 'user', 'question',
-                  'answer_field', 'date_answered')
+                  'answer_field', 'date_answered', 'accepted')
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
