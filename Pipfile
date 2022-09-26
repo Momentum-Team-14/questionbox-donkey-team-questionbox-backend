@@ -15,6 +15,7 @@ django-on-heroku = "*"
 gunicorn = "*"
 whitenoise = "==6.0.0"
 pillow = "*"
+djoser = "*"
 
 [dev-packages]
 
