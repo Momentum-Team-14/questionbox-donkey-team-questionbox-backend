@@ -41,7 +41,7 @@ class AnswerList(generics.ListCreateAPIView):
                         question=serializer.validated_data.get('question'))
 
 
-class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
+class AnswerDetail(generics.RetrieveDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
@@ -54,7 +54,8 @@ class FavoriteList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         try:
-         serializer.save(user=self.request.user, question=serializer.validated_data.get('question'))
+            serializer.save(user=self.request.user,
+                            question=serializer.validated_data.get('question'))
         except IntegrityError as error:
             raise serializers.ValidationError({"error": error})
 
