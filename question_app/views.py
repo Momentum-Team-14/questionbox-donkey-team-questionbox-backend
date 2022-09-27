@@ -39,7 +39,7 @@ class UserQuestionList(generics.ListAPIView):
         return queryset
 
 
-class AnswerList(generics.CreateAPIView):
+class CreateAnswer(generics.CreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
