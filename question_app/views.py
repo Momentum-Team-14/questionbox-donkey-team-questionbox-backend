@@ -30,6 +30,15 @@ class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class UserQuestionList(generics.ListAPIView):
+    serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Question.objects.filter(user=self.request.user.pk)
+        return queryset
+
+
 class AnswerList(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
@@ -46,6 +55,15 @@ class AnswerDetail(generics.RetrieveDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
+
+
+class UserAnswerList(generics.ListAPIView):
+    serializer_class = AnswerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Answer.objects.filter(user=self.request.user.pk)
+        return queryset
 
 
 class AcceptAnswer(generics.UpdateAPIView):
@@ -84,6 +102,15 @@ class FavoriteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     permission_classes = [IsAuthenticated]
+
+
+class UserFavoriteList(generics.ListAPIView):
+    serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Favorite.objects.filter(user=self.request.user.pk)
+        return queryset
 
 
 @api_view(['GET'])
