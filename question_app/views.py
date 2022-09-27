@@ -24,7 +24,7 @@ class QuestionList(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
+class QuestionDetail(generics.RetrieveDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated]
@@ -39,7 +39,7 @@ class UserQuestionList(generics.ListAPIView):
         return queryset
 
 
-class AnswerList(generics.ListCreateAPIView):
+class AnswerList(generics.CreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
