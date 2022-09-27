@@ -9,7 +9,7 @@ urlpatterns = [
          name='question-detail'),
     path('user/questions/', views.UserQuestionList.as_view(),
          name='user-question-list'),
-    path('answers/', views.AnswerList.as_view(), name='answer-list'),
+    path('answers/', views.CreateAnswer.as_view(), name='answer-list'),
     path('answers/<int:pk>/', views.AnswerDetail.as_view(), name='answer-detail'),
     path('answers/<int:pk>/accept',
          views.AcceptAnswer.as_view(), name='answer-accept'),
