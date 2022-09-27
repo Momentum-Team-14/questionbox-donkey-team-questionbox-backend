@@ -85,7 +85,7 @@ Start your server with:
  GET https://team-question-box.herokuapp.com/answers/
 ```
 
-| Parameter       | Type     | Description                        |
+| Body     | Type     | Description                        |
 | :-------------- | :------- | :--------------------------------- |
 | `pk`            | `int`    | Answer PK                          |
 | `user`          | `string` | Username who answered the question |
