@@ -1,8 +1,6 @@
-
 # The Question Box
 
-The question box is the backend code for a question and answer app. 
-
+The question box is the backend code for a question and answer app.
 
 ## Features
 
@@ -16,6 +14,7 @@ The question box is the backend code for a question and answer app.
 - Authenticated users can favorite questions or answers they like and unfavorite as well.
 - A question can be deleted by its author, whether answered or unanswered.
 - Users can search the text of a question.
+
 ## Run Locally
 
 Clone the project
@@ -37,6 +36,7 @@ Run your virtual enviroment with:
 ```
 
 (If running for the first time) migrate with:
+
 ```bash
    python manage.py migrate
 ```
@@ -47,7 +47,6 @@ Start the server
   python manage.py runserver
 ```
 
-
 ## API Reference
 
 #### API Root
@@ -56,24 +55,26 @@ Start the server
 GET https://team-question-box.herokuapp.com
 ```
 
-| Body | Type     | Description                |
-| :-------- | :------- | :------------------------- |
+| Body       | Type     | Description                    |
+| :--------- | :------- | :----------------------------- |
 | `api_root` | `string` | The root entrypoint to the API |
 
-***
+---
 
 #### New User Login
 
 ```http
 POST - https://team-question-box.herokuapp.com/auth/users/
 ```
-| Body | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username` | `string` | New Username |
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
 | `password` | `string` | User generated password |
-| `email` | `string` | User generated email |
+| `email`    | `string` | User generated email    |
 
 Request Sample:
+
 ```
 POST /auth/users/
 Content-Type: json
@@ -86,7 +87,9 @@ Host: team-question-box.herokuapp.com
 	"email": "testemail@fake.com"
 }
 ```
+
 Response Example (201 Created)
+
 ```
 {
 	"email": "testemail@fake.com",
@@ -94,19 +97,22 @@ Response Example (201 Created)
 	"id": 4
 }
 ```
-***
+
+---
 
 #### Token Authentication
 
 ```http
 POST - https://team-question-box.herokuapp.com/auth/token/login/
 ```
-| Body | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username` | `string` | New Username |
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
 | `password` | `string` | User generated password |
 
 Request Sample:
+
 ```
 POST /auth/token/login/
 Content-Type: json
@@ -118,13 +124,16 @@ Host: team-question-box.herokuapp.com
 	"password": "TestUserPassword",
 }
 ```
+
 Response Example (200 OK)
+
 ```
 {
 	"auth_token": "****************************************"
 }
 ```
-***
+
+---
 
 #### Get All Questions
 
@@ -132,19 +141,19 @@ Response Example (200 OK)
 GET - https://team-question-box.herokuapp.com/questions/
 ```
 
-| Body | Type | Description |
-| :-------- | :------- | :-------------------------------- |
-| `pk`      | `int` | The question pk |
-| `user`    | `string` | Username |
-| `question_title` | `string` | Title to the question |
-| `question_field` | `string` | The question text |
-| `date_created` | `int` | Date and time the question was created |
+| Body             | Type     | Description                            |
+| :--------------- | :------- | :------------------------------------- |
+| `pk`             | `int`    | The question pk                        |
+| `user`           | `string` | Username                               |
+| `question_title` | `string` | Title to the question                  |
+| `question_field` | `string` | The question text                      |
+| `date_created`   | `int`    | Date and time the question was created |
 
 Answer [
 | Body | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-| `pk`      | `int` | The answer pk |
-| `user`    | `string` | Username |
+| `pk` | `int` | The answer pk |
+| `user` | `string` | Username |
 | `question` | `int` | Question pk |
 | `answer_field` | `string` | The answer text |
 | `date_answered` | `int` | Date and time the answer was submitted |
@@ -153,6 +162,7 @@ Answer [
 ]
 
 Request Sample:
+
 ```
 GET /questions/
 Content-Type: json
@@ -163,6 +173,7 @@ Host: team-question-box.herokuapp.com
     ""
 }
 ```
+
 Response Example (200 OK)
 
 ```
@@ -184,7 +195,8 @@ Response Example (200 OK)
 		]
 	},
 ```
-***
+
+---
 
 #### Submit A Question - User Authentication **Required**
 
@@ -192,12 +204,13 @@ Response Example (200 OK)
 POST - https://team-question-box.herokuapp.com/questions/
 ```
 
-| Body | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
+| Body             | Type     | Description        |
+| :--------------- | :------- | :----------------- |
 | `question_title` | `string` | The question title |
-| `question_field` | `string` | The question text |
+| `question_field` | `string` | The question text  |
 
 Request Sample:
+
 ```
 POST /questions/
 Content-Type: json
@@ -209,7 +222,9 @@ Host: team-question-box.herokuapp.com
 	"question_field": "Test"
 }
 ```
+
 Response Example (201 Created)
+
 ```
 {
 	"pk": 16,
@@ -220,19 +235,23 @@ Response Example (201 Created)
 	"answers": []
 }
 ```
-***
+
+---
 
 #### Delete Question - User Authentication **Required**
+
+Note: Will delete all associated answers
 
 ```http
 GET - https://team-question-box.herokuapp.com/questions/{question_pk}
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| "" | "" | "" | 
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| ""   | ""   | ""          |
 
 Request Sample:
+
 ```
 POST /questions/{question_pk}
 Content-Type: json
@@ -243,13 +262,16 @@ Host: team-question-box.herokuapp.com
 	""
 }
 ```
+
 Response Example (204 No Content)
+
 ```
 {
 	"No body returned for response"
 }
 ```
-***
+
+---
 
 #### Submit An Answer - User Authentication **Required**
 
@@ -257,12 +279,13 @@ Response Example (204 No Content)
 POST https://team-question-box.herokuapp.com/answers/
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `question` | `int` | Question PK that will be answered  |
-| `answer_field` | `string` | The answer text |
+| Body           | Type     | Description                       |
+| :------------- | :------- | :-------------------------------- |
+| `question`     | `int`    | Question PK that will be answered |
+| `answer_field` | `string` | The answer text                   |
 
 Request Sample:
+
 ```
 POST /answers/
 Content-Type: json
@@ -274,7 +297,9 @@ Host: team-question-box.herokuapp.com
 	"answer_field": "Answer text"
 }
 ```
+
 Response Example (201 Created)
+
 ```
 {
 	"pk": 5,
@@ -285,7 +310,231 @@ Response Example (201 Created)
 	"accepted": false
 }
 ```
-***
 
+---
 
+#### Favorite an Answer - User Authentication **Required**
 
+```http
+POST https://team-question-box.herokuapp.com/favorites/
+```
+
+| Body       | Type  | Description                        |
+| :--------- | :---- | :--------------------------------- |
+| `question` | `int` | Question PK that will be favorited |
+
+Request Sample:
+
+```
+POST /favorites/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question": 1
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 5,
+	"user": "TestUser",
+	"question": 1
+}
+```
+
+---
+
+#### List of Questions by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/user/questions/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /user/questions/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+    "pk": 1,
+	"user": "TestUser",
+	"question_title": "Test Question 1",
+	"question_field": "Test Question Field 1",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+{
+	"pk": 2,
+	"user": "TestUser",
+	"question_title": "Test Question 2",
+	"question_field": "Test Question Field 2",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+{
+	"pk": 3,
+	"user": "TestUser",
+	"question_title": "Test Question 3",
+	"question_field": "Test Question Field 3",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+```
+
+---
+
+#### List of Answers by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/user/answers/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /user/answers/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"pk": 6,
+	"user": "TestUser",
+	"question": 1,
+	"answer_field": "Testing question 1 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": false
+}
+{
+	"pk": 7,
+	"user": "TestUser",
+	"question": 2,
+	"answer_field": "Testing question 2 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": true
+},
+{
+	"pk": 8,
+	"user": "TestUser",
+	"question": 3,
+	"answer_field": "Testing question 3 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": false
+},
+```
+
+---
+
+#### List of Favorite Questions by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/favorites/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /favorites/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+[
+	{
+		"pk": 1,
+		"user": "TestUser",
+		"question": 4
+	},
+	{
+		"pk": 2,
+		"user": "TestUser",
+		"question": 7
+	},
+	{
+		"pk": 3,
+		"user": "TestUser",
+		"question": 8
+	}
+]
+```
+
+---
+
+#### Accept an Answer - User Authentication **Required**
+
+```http
+POST https://team-question-box.herokuapp.com/answers/{question_pk}/accept
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+POST /answers/{question_pk}/accept
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"pk": 8,
+	"user": "TestUser",
+	"question": 10,
+	"answer_field": "Testing question 10",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": true
+}
+```
