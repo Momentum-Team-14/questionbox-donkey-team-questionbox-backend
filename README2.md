@@ -229,9 +229,9 @@ Response Example (201 Created)
 {
 	"pk": 16,
 	"user": "TestUser2",
-	"question_title": "Test Question 15",
-	"question_field": "Test 15",
-	"date_created": "2022-09-28T01:49:40.653961Z",
+	"question_title": "Test Question 1",
+	"question_field": "Test ",
+	"date_created": "1991-1-20T02:02:11.587060Z",
 	"answers": []
 }
 ```
@@ -243,7 +243,7 @@ Response Example (201 Created)
 Note: Will delete all associated answers
 
 ```http
-GET - https://team-question-box.herokuapp.com/questions/{question_pk}
+DELETE - https://team-question-box.herokuapp.com/questions/{question_pk}
 ```
 
 | Body | Type | Description |
@@ -253,7 +253,7 @@ GET - https://team-question-box.herokuapp.com/questions/{question_pk}
 Request Sample:
 
 ```
-POST /questions/{question_pk}
+DELETE /questions/{question_pk}
 Content-Type: json
 Authorization: Required
 Host: team-question-box.herokuapp.com
@@ -459,7 +459,7 @@ Response Example (200 OK)
 #### List of Favorite Questions by User - User Authentication **Required**
 
 ```http
-GET https://team-question-box.herokuapp.com/favorites/
+GET https://team-question-box.herokuapp.com/user/favorites/
 ```
 
 | Body | Type | Description |
@@ -469,7 +469,7 @@ GET https://team-question-box.herokuapp.com/favorites/
 Request Sample:
 
 ```
-GET /favorites/
+GET user/favorites/
 Content-Type: json
 Authorization: Required
 Host: team-question-box.herokuapp.com
