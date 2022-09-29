@@ -353,7 +353,7 @@ Response Example (201 Created)
 
 ---
 
-#### Favorite an Answer - User Authentication **Required**
+#### Favorite a Quesiton - User Authentication **Required**
 
 ```http
 POST https://team-question-box.herokuapp.com/favorites/
