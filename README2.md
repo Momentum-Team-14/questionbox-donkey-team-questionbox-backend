@@ -313,6 +313,46 @@ Response Example (201 Created)
 
 ---
 
+#### Submit An Answer - User Authentication **Required**
+
+```http
+POST https://team-question-box.herokuapp.com/user/answers/
+```
+
+| Body           | Type     | Description                       |
+| :------------- | :------- | :-------------------------------- |
+| `question`     | `int`    | Question PK that will be answered |
+| `answer_field` | `string` | The answer text                   |
+
+Request Sample:
+
+```
+POST user/answers/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question": 1,
+	"answer_field": "Answer text"
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 5,
+	"user": "TestUser",
+	"question": 1,
+	"answer_field": "Answer text",
+	"date_answered": "1991-1-20T02:02:11.587060Z",
+	"accepted": false
+}
+```
+
+---
+
 #### Favorite an Answer - User Authentication **Required**
 
 ```http
