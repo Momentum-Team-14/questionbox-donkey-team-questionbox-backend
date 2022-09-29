@@ -615,7 +615,7 @@ Response Example (200 OK)
 #### Accept an Answer - User Authentication **Required**
 
 ```http
-POST https://team-question-box.herokuapp.com/answers/{question_pk}/accept
+PATCH https://team-question-box.herokuapp.com/answers/{answer_pk}/accept
 ```
 
 | Body | Type | Description |
@@ -625,7 +625,7 @@ POST https://team-question-box.herokuapp.com/answers/{question_pk}/accept
 Request Sample:
 
 ```
-POST /answers/{question_pk}/accept
+PATCH /answers/{answer_pk}/accept
 Content-Type: json
 Authorization: Required
 Host: team-question-box.herokuapp.com
