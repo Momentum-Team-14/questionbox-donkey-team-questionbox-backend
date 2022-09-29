@@ -23,7 +23,11 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class FavoriteSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    question_title = serializers.SlugRelatedField(
+        source="question", slug_field='question_title', read_only=True)
+    question_field = serializers.SlugRelatedField(
+        source="question", slug_field='question_field', read_only=True)
 
     class Meta:
         model = Favorite
-        fields = ('pk', 'user', 'question')
+        fields = ('pk', 'user', 'question', 'question_title', 'question_field')
