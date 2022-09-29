@@ -57,7 +57,7 @@ class AnswerDetail(generics.RetrieveDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class UserAnswerList(generics.ListAPIView):
+class UserAnswerList(generics.ListCreateAPIView):
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
 
