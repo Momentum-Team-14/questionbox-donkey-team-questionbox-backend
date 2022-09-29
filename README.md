@@ -172,7 +172,7 @@ Response Example (200 OK)
 
 ---
 
-#### User Logout **Required**
+#### User Logout - User Authentication **Required**
 
 ```http
 POST - https://team-question-box.herokuapp.com/auth/token/logout/
@@ -270,33 +270,17 @@ Response Example (200 OK)
 #### Search All Questions
 
 ```http
-GET - https://team-question-box.herokuapp.com/questions/?search=
+GET - https://team-question-box.herokuapp.com/questions/?search={""}
 ```
 
-| Body             | Type     | Description                            |
-| :--------------- | :------- | :------------------------------------- |
-| `pk`             | `int`    | The question pk                        |
-| `user`           | `string` | Username                               |
-| `question_title` | `string` | Title to the question                  |
-| `question_field` | `string` | The question text                      |
-| `date_created`   | `int`    | Date and time the question was created |
-
-Answer [
 | Body | Type | Description |
-| :-------- | :------- | :-------------------------------- |
-| `pk` | `int` | The answer pk |
-| `user` | `string` | Username |
-| `question` | `int` | Question pk |
-| `answer_field` | `string` | The answer text |
-| `date_answered` | `int` | Date and time the answer was submitted |
-| `accepted` | `Boolean` | Accepted answer boolean field |
-
-]
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
 
 Request Sample:
 
 ```
-GET /questions/?search=
+GET /questions/?search={""}
 Content-Type: json
 Authorization: N/A
 Host: team-question-box.herokuapp.com
@@ -309,23 +293,14 @@ Host: team-question-box.herokuapp.com
 Response Example (200 OK)
 
 ```
-{
-		"pk": 3,
-		"user": "Groot",
-		"question_title": "Test Question 3",
-		"question_field": "Test 3",
-		"date_created": "2022-09-22T19:00:39.014337Z",
+	{
+		"pk": 2,
+		"user": "TestUser",
+		"question_title": "Test Question 1",
+		"question_field": "Test 1",
+		"date_created": "1991-1-20T02:02:11.587060Z",
 		"answers": [
 			{
-				"pk": 1,
-				"user": "Groot",
-				"question": 3,
-				"answer_field": "Test",
-				"date_answered": "2022-09-22T21:57:19.267262Z",
-				"accepted": false
-			}
-		]
-	},
 ```
 
 ---
@@ -710,3 +685,7 @@ Response Example (200 OK)
 	"accepted": true
 }
 ```
+## Authors:
+
+- [@cbmosley](https://github.com/cbmosley)
+- [@GitLukeW](https://github.com/GitLukeW)
