@@ -10,8 +10,6 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from django.core.exceptions import PermissionDenied
 
 
-# Create your views here.
-
 class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
@@ -76,9 +74,6 @@ class AcceptAnswer(generics.UpdateAPIView):
 
         if self.request.user != answer.question.user:
             raise PermissionDenied()
-            # I don't really need to do this check because I have set the queryset
-            # to _only_ the recipes belonging to the authenticated user
-            # but it makes this extra explicit
         return answer
 
     def perform_update(self, serializer):
