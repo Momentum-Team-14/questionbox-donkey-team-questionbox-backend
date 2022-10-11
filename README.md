@@ -1,93 +1,691 @@
-# Questionbox
+# The Question Box
 
-This application is a question and answer platform, similar to Stack Overflow. It does _not_ have to be themed to code-related questions, though. Theming and design is up to you.
+The question box is the backend code for a question and answer app.
 
-You will likely not be able to do ALL of the listed requirements. That is OK. Decide what the core functionality is and what you can wait to implement once you have the basics done.
+## Features
 
-### Back-end: The API
+- An authenticated user can create a question.
+- An authenticated user can create an answer to a question
+- Unauthenticated users can view all questions and answers.
+- Question Box uses a registration and token-based authentication.
+- A user can get a list of all the questions they have posted.
+- A user can get a list of all the answers they have posted.
+- The original author of the question can mark an answer as accepted.
+- Authenticated users can favorite questions or answers they like and unfavorite as well.
+- A question can be deleted by its author, whether answered or unanswered.
+- Users can search the text of a question.
 
-Backend devs will build an API using Django and Django REST Framework that allows users to create questions and answers to questions. Question-askers can mark an answer as accepted. Logged-in users can "star" or favorite a question or answer. Your application only needs to serve JSON, not HTML.
+## Run Locally
 
-You will need to make a list of your endpoints available to the front-end devs on your team.
+Clone the project
 
-#### Requirements
+```bash
+  git clone https://github.com/Momentum-Team-14/questionbox-donkey-team-questionbox-backend
+```
 
-- Allow an authenticated user to create a question (allowing for long-form text).
-- Allow an authenticated user to create an answer to a question (one question can have many answers).
-- Allow unauthenticated users to view all questions and answers.
-- Have registration and token-based authentication.
-- Allow a user to get a list of all the questions they have posted.
-- Allow a user to get a list of all the answers they have posted.
-- Allow the original author of the question to mark an answer as accepted.
-- Questions cannot be edited once they have been asked (_note_: allowing editing of unanswered questions is listed as an extra challenge).
-- A question can be deleted by its author, whether answered or unanswered. If it is deleted, all associated answers should also be deleted.
-- Users can search the database by supplying a search term. This should use [Django's PostgreSQL full-text search](https://docs.djangoproject.com/en/3.0/ref/contrib/postgres/search/).
-  - At minimum allow a search in the text of a question.
-  - A more comprehensive search would allow searching both questions and answers.
-- Authenticated users can "star" or favorite questions or answers they like. They should also be able to un-star anything that they have starred.
-- Deploy to Heroku.
+Go to the project directory
 
-### 🌶️ Spicy features
+```bash
+  cd questionbox-donkey-team-questionbox-backend
+```
 
-- Add tags to questions and allow search by tags
-- Allow a user to upload a profile photo.
-  - for Heroku, you'll need to configure a storage backend like Amazon S3 in order to upload files.
-- Allow an unanswered question to be edited.
-- Allow the author of an answer to delete or edit an answer.
+Run your virtual enviroment with:
 
-### Back-end development notes
+```bash
+   pipenv shell
+```
 
-You should use [djoser](https://djoser.readthedocs.io/en/latest/) and [token-based authentication](https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication) to handle registration and login.
+(If running for the first time) migrate with:
 
-### CORS
+```bash
+   python manage.py migrate
+```
 
-CORS (Cross-Origin Resource Sharing) headers must be added to your responses for the front-end app to interact with your API. [Read this blog post to find out how to set up CORS](https://www.techiediaries.com/django-cors/). You will want to use django-cors-headers (the second option mentioned in the blog post) and set `CORS_ALLOW_ALL_ORIGINS = True`.
+Start the server
 
-## Front-End: The React application
+```bash
+  python manage.py runserver
+```
 
-The front-end team will build a React application that will send AJAX requests to the QuestionBox API.
+## API Reference
 
-This application is a question and answer platform, similar to Stack Overflow in format, but you can theme it and design it however you like. This application should allow logged-in users to ask questions, give and receive answers, and mark an answer as accepted. Users that are not logged in should still be able to view questions and answers, but cannot ask questions, give answers, or mark answers as accepted.
+#### API Root
 
-### Requirements
+```http
+GET https://team-question-box.herokuapp.com
+```
 
-- Users can create an account.
-- Users can log in.
-- Authenticated users can ask a question.
-  - A question cannot be edited.
-  - A user can delete their own question.
-- Authenticated users can answer a question.
-- Authenticated users can choose an accepted answer among the answers to one of their questions.
-- Authenticated users have a profile page that lists all their questions and answers.
-- Authenticated users can "star" a question or answer they like.
-  - Allow a user to "unstar" something they have previously starred.
-- You will have to route some URLs.
-  - Login and registration should each have a URL, or one for both if they are in the same view.
-  - Questions should have their own route.
-  - User profiles should have their own route.
-  - If implementing pagination, you will likely use routes to implement this.
-- Deploy to Netlify
+| Body       | Type     | Description                    |
+| :--------- | :------- | :----------------------------- |
+| `api_root` | `string` | The root entrypoint to the API |
 
-### 🌶️ Spicy features
+---
 
-Most of these are dependent on whether the API supports these capabilities.
+#### New User Create
 
-- Allow users to search the API using a search term.
-  - If your API supports tags, allow search by tags.
-- The list of questions that comes back from the API may be paginated. If so, you should implement pagination in your application.
-- Allow questions to be edited if they have not been answered.
-- Allow users to show only the questions and/or answers they have starred.
-- Allow users to follow/unfollow each other.
-- Allow users to upload a profile photo.
+```http
+POST - https://team-question-box.herokuapp.com/auth/users/
+```
 
-### Front-end Development notes
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
+| `password` | `string` | User generated password |
+| `email`    | `string` | User generated email    |
 
-During development, you will want to be able to make requests before the API is complete. You can handle this in a few ways.
+Request Sample:
 
-One way is to make functions or methods for all your API calls, but instead of having them actually make the calls at first, have them set the data you are expecting without actually making an API call. Another way is to use the provided exported mock API specification for Mockoon, a tool that will run a mock server for you. In this case, you will want to be able to switch which server you use based on the environment your code is running in.
+```
+POST /auth/users/
+Content-Type: json
+Authorization: N/A
+Host: team-question-box.herokuapp.com
 
-You can [read more about approaches to building your front-end before the API is done in this dev.to article](https://dev.to/momentum/how-to-build-a-front-end-app-before-you-have-an-api-3ai3).
+{
+	"username": "TestUserLogin" ,
+	"password": "TestUserPassword",
+	"email": "testemail@fake.com"
+}
+```
 
-If you need to switch how you access your data based on environment, read [this article on create-react-app-environments](https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d).
+Response Example (201 Created)
 
-You can work with a back-end dev to get the back-end API running on your local machine, but you do not have to.
+```
+{
+	"email": "testemail@fake.com",
+	"username": "TestUserLogin",
+	"id": 4
+}
+```
+
+---
+
+#### Token Authentication
+
+```http
+POST - https://team-question-box.herokuapp.com/auth/token/login/
+```
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
+| `password` | `string` | User generated password |
+
+Request Sample:
+
+```
+POST /auth/token/login/
+Content-Type: json
+Authorization: N/A
+Host: team-question-box.herokuapp.com
+
+{
+	"username": "TestUserLogin" ,
+	"password": "TestUserPassword",
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"auth_token": "****************************************"
+}
+
+```
+
+---
+
+#### User Login
+
+```http
+POST - https://team-question-box.herokuapp.com/auth/token/login/
+```
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
+| `password` | `string` | User generated password |
+
+Request Sample:
+
+```
+POST /auth/token/login/
+Content-Type: json
+Authorization:
+Host: team-question-box.herokuapp.com
+
+{
+	"username": "TestUserLogin" ,
+	"password": "TestUserPassword",
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"auth_token": "****************************************"
+}
+
+```
+
+---
+
+#### User Logout - User Authentication **Required**
+
+```http
+POST - https://team-question-box.herokuapp.com/auth/token/logout/
+```
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `username` | `string` | New Username            |
+| `password` | `string` | User generated password |
+
+Request Sample:
+
+```
+POST /auth/token/logout/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"username": "TestUserLogin" ,
+	"password": "TestUserPassword",
+}
+```
+
+Response Example (204 No Content)
+
+```
+No body returned for response
+
+```
+
+#### Get All Questions
+
+```http
+GET - https://team-question-box.herokuapp.com/questions/
+```
+
+| Body             | Type     | Description                            |
+| :--------------- | :------- | :------------------------------------- |
+| `pk`             | `int`    | The question pk                        |
+| `user`           | `string` | Username                               |
+| `question_title` | `string` | Title to the question                  |
+| `question_field` | `string` | The question text                      |
+| `date_created`   | `int`    | Date and time the question was created |
+
+Answer [
+| Body | Type | Description |
+| :-------- | :------- | :-------------------------------- |
+| `pk` | `int` | The answer pk |
+| `user` | `string` | Username |
+| `question` | `int` | Question pk |
+| `answer_field` | `string` | The answer text |
+| `date_answered` | `int` | Date and time the answer was submitted |
+| `accepted` | `Boolean` | Accepted answer boolean field |
+
+]
+
+Request Sample:
+
+```
+GET /questions/
+Content-Type: json
+Authorization: N/A
+Host: team-question-box.herokuapp.com
+
+{
+    ""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+		"pk": 3,
+		"user": "Groot",
+		"question_title": "Test Question 3",
+		"question_field": "Test 3",
+		"date_created": "2022-09-22T19:00:39.014337Z",
+		"answers": [
+			{
+				"pk": 1,
+				"user": "Groot",
+				"question": 3,
+				"answer_field": "Test",
+				"date_answered": "2022-09-22T21:57:19.267262Z",
+				"accepted": false
+			}
+		]
+	},
+```
+
+---
+
+#### Search All Questions
+
+```http
+GET - https://team-question-box.herokuapp.com/questions/?search={""}
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /questions/?search={""}
+Content-Type: json
+Authorization: N/A
+Host: team-question-box.herokuapp.com
+
+{
+    ""
+}
+```
+
+Response Example (200 OK)
+
+```
+	{
+		"pk": 2,
+		"user": "TestUser",
+		"question_title": "Test Question 1",
+		"question_field": "Test 1",
+		"date_created": "1991-1-20T02:02:11.587060Z",
+		"answers": [
+			{
+```
+
+---
+
+#### Submit A Question - User Authentication **Required**
+
+```http
+POST - https://team-question-box.herokuapp.com/questions/
+```
+
+| Body             | Type     | Description        |
+| :--------------- | :------- | :----------------- |
+| `question_title` | `string` | The question title |
+| `question_field` | `string` | The question text  |
+
+Request Sample:
+
+```
+POST /questions/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question_title": "Test 1",
+	"question_field": "Test"
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 16,
+	"user": "TestUser2",
+	"question_title": "Test Question 1",
+	"question_field": "Test ",
+	"date_created": "1991-1-20T02:02:11.587060Z",
+	"answers": []
+}
+```
+
+---
+
+#### Delete Question - User Authentication **Required**
+
+Note: Will delete all associated answers
+
+```http
+DELETE - https://team-question-box.herokuapp.com/questions/{question_pk}
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| ""   | ""   | ""          |
+
+Request Sample:
+
+```
+DELETE /questions/{question_pk}
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (204 No Content)
+
+```
+{
+	"No body returned for response"
+}
+```
+
+---
+
+#### Submit An Answer - User Authentication **Required**
+
+```http
+POST https://team-question-box.herokuapp.com/answers/
+```
+
+| Body           | Type     | Description                       |
+| :------------- | :------- | :-------------------------------- |
+| `question`     | `int`    | Question PK that will be answered |
+| `answer_field` | `string` | The answer text                   |
+
+Request Sample:
+
+```
+POST /answers/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question": 1,
+	"answer_field": "Answer text"
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 5,
+	"user": "TestUser",
+	"question": 1,
+	"answer_field": "Answer text",
+	"date_answered": "1991-1-20T02:02:11.587060Z",
+	"accepted": false
+}
+```
+
+---
+
+#### Submit An Answer - User Authentication **Required**
+
+```http
+POST https://team-question-box.herokuapp.com/user/answers/
+```
+
+| Body           | Type     | Description                       |
+| :------------- | :------- | :-------------------------------- |
+| `question`     | `int`    | Question PK that will be answered |
+| `answer_field` | `string` | The answer text                   |
+
+Request Sample:
+
+```
+POST user/answers/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question": 1,
+	"answer_field": "Answer text"
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 5,
+	"user": "TestUser",
+	"question": 1,
+	"answer_field": "Answer text",
+	"date_answered": "1991-1-20T02:02:11.587060Z",
+	"accepted": false
+}
+```
+
+---
+
+#### Favorite a Quesiton - User Authentication **Required**
+
+```http
+POST https://team-question-box.herokuapp.com/favorites/
+```
+
+| Body       | Type  | Description                        |
+| :--------- | :---- | :--------------------------------- |
+| `question` | `int` | Question PK that will be favorited |
+
+Request Sample:
+
+```
+POST /favorites/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	"question": 1
+}
+```
+
+Response Example (201 Created)
+
+```
+{
+	"pk": 5,
+	"user": "TestUser",
+	"question": 1
+}
+```
+
+---
+
+#### List of Questions by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/user/questions/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /user/questions/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+    "pk": 1,
+	"user": "TestUser",
+	"question_title": "Test Question 1",
+	"question_field": "Test Question Field 1",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+{
+	"pk": 2,
+	"user": "TestUser",
+	"question_title": "Test Question 2",
+	"question_field": "Test Question Field 2",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+{
+	"pk": 3,
+	"user": "TestUser",
+	"question_title": "Test Question 3",
+	"question_field": "Test Question Field 3",
+	"date_created": "1999-12-31T23:59:59.430665Z",
+	"answers": []
+},
+```
+
+---
+
+#### List of Answers by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/user/answers/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET /user/answers/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"pk": 6,
+	"user": "TestUser",
+	"question": 1,
+	"answer_field": "Testing question 1 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": false
+}
+{
+	"pk": 7,
+	"user": "TestUser",
+	"question": 2,
+	"answer_field": "Testing question 2 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": true
+},
+{
+	"pk": 8,
+	"user": "TestUser",
+	"question": 3,
+	"answer_field": "Testing question 3 with JSON",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": false
+},
+```
+
+---
+
+#### List of Favorite Questions by User - User Authentication **Required**
+
+```http
+GET https://team-question-box.herokuapp.com/user/favorites/
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+GET user/favorites/
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+[
+	{
+		"pk": 1,
+		"user": "TestUser",
+		"question": 4
+	},
+	{
+		"pk": 2,
+		"user": "TestUser",
+		"question": 7
+	},
+	{
+		"pk": 3,
+		"user": "TestUser",
+		"question": 8
+	}
+]
+```
+
+---
+
+#### Accept an Answer - User Authentication **Required**
+
+```http
+PATCH https://team-question-box.herokuapp.com/answers/{answer_pk}/accept
+```
+
+| Body | Type | Description |
+| :--- | :--- | :---------- |
+| `""` | `""` | ""          |
+
+Request Sample:
+
+```
+PATCH /answers/{answer_pk}/accept
+Content-Type: json
+Authorization: Required
+Host: team-question-box.herokuapp.com
+
+{
+	""
+}
+```
+
+Response Example (200 OK)
+
+```
+{
+	"pk": 8,
+	"user": "TestUser",
+	"question": 10,
+	"answer_field": "Testing question 10",
+	"date_answered": "1999-12-31T23:59:59.430665Z",
+	"accepted": true
+}
+```
+## Authors:
+
+- [@cbmosley](https://github.com/cbmosley)
+- [@GitLukeW](https://github.com/GitLukeW)
